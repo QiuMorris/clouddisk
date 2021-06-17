@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="persional.cheneyjin.cloudisk.db.FolderInterface">
+	<!-- 在用户注册时初始化用户根路径 -->
+	<insert id="initFolder" parameterType="Folder" useGeneratedKeys="true"
+		keyProperty="id">
+		INSERT INTO `FOLDER`(`FOLDER_NAME`,`CREATIME`)VALUES('root',LOCALTIME());
+	</insert>
+
+	<insert id="createFolder" parameterType="Folder" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO `FOLDER`(`FOLDER_NAME`,`FA_ID`,`USER_ID`,`CREATIME`)VALUES(#{folderName},#{fa_id},#{user_id},LOCALTIME());
+	</insert>
+
+	<select id="selectFolderById" parameterType="int" resultMap="FolderChResultMap">
+		SELECT * FROM `FOLDER` WHERE ID=#{0};
+	</select>
+	<update id="setFolderOwn">
+		UPDATE FOLDER SET USER_ID=#{0} WHERE ID=#{1};
+	</update>
+	
+	<select id="selectChFiles" parameterType="int" resultMap="UserFileResultMap">
+		SELECT * FROM `USER_FILE` WHERE FOLDER_ID = #{folder_id} AND USER_ID IS NOT NULL;
+	</select>
+	
+	<select id="selectChFolders" parameterType="int" resultMap="FolderChResultMap">
+		SELECT * FROM `FOLDER` WHERE FA_ID= #{folder_id} AND USER_ID IS NOT NULL;
+	</select>
+
+	<update id="deleteFolder" parameterType="int">
+		UPDATE FOLDER SET USER_ID=NULL WHERE ID=#{folder_id};
+	</update>
+	
+	<update id="recoveryFolder" parameterType="int">
+		UPDATE FODER SET USER_ID=#{user_id} WHERE id=#{folder_id};
+	</update>
+	<resultMap type="Folder" id="FolderChResultMap">
+		<id property="id" column="id" />
+		<result property="folderName" column="folder_name" />
+		<result property="fa_id" column="fa_id" />
+		<result property="user_id" column="user_id" />
+	</resultMap>
+
+	<resultMap type="UserFile" id="UserFileResultMap">
+		<id property="id" column="id" />
+		<result property="user_id" column="user_id" />
+		<result property="fileName" column="file_name" />
+		<result property="fileType" column="file_type" />
+		<result property="fileSize" column="file_size" />
+		<result property="uploadTime" column="upload_time" />
+		<result property="share" column="share" />
+		<result property="folder_id" column="folder_id" />
+		<result property="file_id" column="file_id" />
+	</resultMap>
+
+</mapper>  

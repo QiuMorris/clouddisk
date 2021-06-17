@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias alias="User" type="persional.cheneyjin.cloudisk.model.User" />
+		<typeAlias alias="Folder" type="persional.cheneyjin.cloudisk.model.Folder" />
+		<typeAlias alias="FileInCloud" type="persional.cheneyjin.cloudisk.model.FileInCloud" />
+		<typeAlias alias="UserFile" type="persional.cheneyjin.cloudisk.model.UserFile" />
+
+		<!-- <typeAlias alias="FolderCh" type="persional.cheneyjin.cloudisk.model.FolderCh"/> -->
+	</typeAliases>
+
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="com.mysql.jdbc.Driver" />
+				<property name="url" value="jdbc:mysql://127.0.0.1:3306/cloudiskdb" />
+				<property name="username" value="root" />
+				<property name="password" value="Outlook" />
+			</dataSource>
+		</environment>
+	</environments>
+
+	<mappers>
+		<mapper class="persional.cheneyjin.cloudisk.db.UserInterface" />
+		<mapper class="persional.cheneyjin.cloudisk.db.FolderInterface" />
+		<mapper class="persional.cheneyjin.cloudisk.db.UserFileInterface" />
+		<mapper class="persional.cheneyjin.cloudisk.db.FileInCloudInterface" />
+	</mappers>
+</configuration>

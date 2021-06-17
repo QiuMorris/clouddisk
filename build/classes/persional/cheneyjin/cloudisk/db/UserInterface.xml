@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="persional.cheneyjin.cloudisk.db.UserInterface">
+	<select id="selectUserByEmail" parameterType="String" resultType="int">
+		select count(*) from `user` where email = #{0}
+	</select>
+
+	<select id="checkLogin" resultType="User">
+		SELECT * FROM `USER` WHERE EMAIL=#{0} AND PSD=#{1}
+	</select>
+
+	<insert id="regist" parameterType="User" useGeneratedKeys="true"
+		keyProperty="id">
+		insert into `user`(`name`, `email`, `psd`, `creatime`,
+		`role_id`, `root_id`)
+		values(#{name},#{email},md5(#{psd}),LOCALTIME(),2,#{root_id});
+	</insert>
+
+	<update id="resetPsd">
+		update user set psd = md5(#{1}) where email=#{0};
+	</update>
+</mapper>  

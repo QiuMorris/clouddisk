@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<decorators defaultdir="/WEB-INF/jsps/layout">
+	<!-- 不需要过滤的请求 -->
+	<excludes>
+		<pattern>/Cloudisk/images/*</pattern>
+		<pattern>/Cloudisk/lib/*</pattern>
+
+		<pattern>*.js</pattern>
+		<pattern>*.css</pattern>
+		<pattern>*.xml</pattern>
+	</excludes>
+	<!-- 定义装饰器要过滤的页面 -->
+	<decorator name="dec" page="decorator.jsp">
+		<pattern>/*</pattern>
+	</decorator>
+
+</decorators>  

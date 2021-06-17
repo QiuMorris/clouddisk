@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="persional.cheneyjin.cloudisk.db.UserFileInterface">
+
+	<select id="fileInfo" parameterType="int" resultMap="UserFileResultMap">
+		SELECT *
+		FROM USER_FILE WHERE ID=#{file_id};
+	</select>
+	
+	<select id="selectFilesInShare" parameterType="int" resultMap="UserFileResultMap">
+		SELECT * FROM USER_FILE WHERE USER_ID=#{0} AND SHARE=1;
+	</select>
+
+	<update id="cancelShareFile" parameterType="int">
+		UPDATE USER_FILE SET SHARE=0 WHERE ID=#{0};
+	</update>
+	<insert id="uploadFile" parameterType="UserFile" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO
+		`USER_FILE`(`USER_ID`, `FILE_NAME`, `FILE_TYPE`, `FILE_SIZE`,
+		`UPLOAD_TIME`, `SHARE`, `FOLDER_ID`,
+		`FILE_ID`)
+		VALUES(#{user_id},#{fileName},#{fileType},#{fileSize},LOCALTIME(),false,#{folder_id},#{file_id});
+	</insert>
+
+	<update id="shareFile" parameterType="int">
+		UPDATE USER_FILE SET SHARE=1 WHERE ID=#{0};
+	</update>
+	
+	<update id="deleteFile" parameterType="int">
+		UPDATE USER_FILE SET USER_ID=NULL WHERE ID=#{0};
+	</update>
+
+	<resultMap type="UserFile" id="UserFileResultMap">
+		<id property="id" column="id" />
+		<result property="user_id" column="user_id" />
+		<result property="fileName" column="file_name" />
+		<result property="fileType" column="file_type" />
+		<result property="fileSize" column="file_size" />
+		<result property="uploadTime" column="upload_time" />
+		<result property="share" column="share" />
+		<result property="folder_id" column="folder_id" />
+		<result property="file_id" column="file_id" />
+	</resultMap>
+
+</mapper>

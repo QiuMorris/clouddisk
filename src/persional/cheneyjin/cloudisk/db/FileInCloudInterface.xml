@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="persional.cheneyjin.cloudisk.db.FileInCloudInterface">
+	<select id="getFile" parameterType="int" resultType="FileInCloud">
+		SELECT *
+		FROM FILE WHERE ID=#{file_id};
+
+	</select>
+
+	<insert id="setFile" parameterType="FileInCloud" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO `FILE`(`MD5`,`PATH`)VALUES(#{md5},#{path});
+	</insert>
+	
+	<select id="selectFileMD5" parameterType="String" resultMap="FileInCloudResultMap">
+		SELECT * FROM `FILE` WHERE MD5=#{0};
+	</select>
+	
+	<resultMap type="FileInCloud" id="FileInCloudResultMap">
+		<id property="id" column="id" />
+		<result property="md5" column="md5" />
+		<result property="path" column="path" />
+	</resultMap>
+</mapper>
+
